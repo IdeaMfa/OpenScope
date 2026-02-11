@@ -42,20 +42,20 @@ jobs:
       - name: Build (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          pyinstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
+          python -m PyInstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
 
       # --- LINUX BUILD ---
       - name: Build (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          pyinstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
+          python -m PyInstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
 
       # --- MACOS BUILD ---
       - name: Build (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          pyinstaller --noconfirm --onedir --windowed --name "OpenScope" main.py
-
+          python -m PyInstaller --noconfirm --onedir --windowed --name "OpenScope" main.py
+          
       # --- UPLOAD ARTIFACTS ---
       - name: Upload Artifact (Windows)
         if: matrix.os == 'windows-latest'
