@@ -46,20 +46,87 @@ jobs:
       # --- WINDOWS BUILD ---
       - name: Build (Windows)
         if: matrix.os == 'windows-latest'
+        shell: bash
         run: |
-          python -m PyInstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
+          python -m PyInstaller --noconfirm --onedir --windowed --clean \
+            --hidden-import=tifffile \
+            --hidden-import=tifffile._tifffile \
+            --hidden-import=imagecodecs \
+            --hidden-import=imagecodecs._imcd \
+            --hidden-import=imagecodecs._imagecodecs \
+            --hidden-import=numpy \
+            --hidden-import=numpy._core \
+            --hidden-import=scipy \
+            --hidden-import=scipy.ndimage \
+            --hidden-import=skimage \
+            --hidden-import=skimage.feature \
+            --hidden-import=skimage.filters \
+            --hidden-import=skimage.morphology \
+            --hidden-import=skimage.measure \
+            --hidden-import=skimage.segmentation \
+            --hidden-import=cv2 \
+            --hidden-import=pandas \
+            --hidden-import=matplotlib \
+            --collect-submodules=imagecodecs \
+            --collect-submodules=tifffile \
+            --collect-submodules=skimage \
+            --name "OpenScope" main.py
 
       # --- LINUX BUILD ---
       - name: Build (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          python -m PyInstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
+          python -m PyInstaller --noconfirm --onedir --windowed --clean \
+            --hidden-import=tifffile \
+            --hidden-import=tifffile._tifffile \
+            --hidden-import=imagecodecs \
+            --hidden-import=imagecodecs._imcd \
+            --hidden-import=imagecodecs._imagecodecs \
+            --hidden-import=numpy \
+            --hidden-import=numpy._core \
+            --hidden-import=scipy \
+            --hidden-import=scipy.ndimage \
+            --hidden-import=skimage \
+            --hidden-import=skimage.feature \
+            --hidden-import=skimage.filters \
+            --hidden-import=skimage.morphology \
+            --hidden-import=skimage.measure \
+            --hidden-import=skimage.segmentation \
+            --hidden-import=cv2 \
+            --hidden-import=pandas \
+            --hidden-import=matplotlib \
+            --collect-submodules=imagecodecs \
+            --collect-submodules=tifffile \
+            --collect-submodules=skimage \
+            --name "OpenScope" main.py
 
       # --- MACOS BUILD ---
       - name: Build (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          python -m PyInstaller --noconfirm --onedir --windowed --name "OpenScope" main.py
+          python -m PyInstaller --noconfirm --onedir --windowed \
+            --hidden-import=tifffile \
+            --hidden-import=tifffile._tifffile \
+            --hidden-import=imagecodecs \
+            --hidden-import=imagecodecs._imcd \
+            --hidden-import=imagecodecs._imagecodecs \
+            --hidden-import=numpy \
+            --hidden-import=numpy._core \
+            --hidden-import=scipy \
+            --hidden-import=scipy.ndimage \
+            --hidden-import=skimage \
+            --hidden-import=skimage.feature \
+            --hidden-import=skimage.filters \
+            --hidden-import=skimage.morphology \
+            --hidden-import=skimage.measure \
+            --hidden-import=skimage.segmentation \
+            --hidden-import=cv2 \
+            --hidden-import=pandas \
+            --hidden-import=matplotlib \
+            --collect-submodules=imagecodecs \
+            --collect-submodules=tifffile \
+            --collect-submodules=skimage \
+            --name "OpenScope" main.py
 
       # --- UPLOAD ARTIFACTS ---
       - name: Upload Artifact (Windows)
