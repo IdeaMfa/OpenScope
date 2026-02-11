@@ -16,6 +16,7 @@ try:
     from plugins.basic_blob import BasicBlobDetector
     from plugins.advanced_ge import AdvancedBacteriaDetector
     from plugins.advanced_bf import BrightfieldBacteriaDetectorPlugin
+    from plugins.rescue_bacteria_v1 import RescueBacteriaV1Plugin
 except ImportError as e:
     print(f"Kritik Import Hatası: {e}")
 
@@ -46,6 +47,12 @@ class OpenScopeMain(QMainWindow):
         # 3. Advanced Plugin 2
         try:
             self.plugins["Brightfield Bacteria Detector"] = BrightfieldBacteriaDetectorPlugin()
+        except Exception as e:
+            print(f"Hata: Advanced Plugin yüklenemedi: {e}")
+
+        # 4. Rescue Bacteria Plugin
+        try:
+            self.plugins["Rescue Bacteria v1"] = RescueBacteriaV1Plugin()
         except Exception as e:
             print(f"Hata: Advanced Plugin yüklenemedi: {e}")
 
