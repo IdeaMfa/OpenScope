@@ -2,25 +2,25 @@ name: Build OpenScope
 
 on:
   push:
-    tags:
-      - 'v*' # Sadece v1.0, v1.1 gibi tag'ler atıldığında çalışır
-  workflow_dispatch: # Manuel tetikleme için
+    branches: [ "main" ]       # Her push işleminde çalışır
+  workflow_dispatch:           # "Run Workflow" butonu aktif olur
 
 jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10' # 3.12 bazen PyQT uyumsuzluğu yapabilir, 3.10 güvenlidir
+        python-version: '3.10' 
 
     - name: Install Dependencies
       run: |
@@ -32,27 +32,27 @@ jobs:
     - name: Build with PyInstaller (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        pyinstaller --noconfirm --onefile --windowed --clean --name "OpenScope" main.py
+        pyinstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
 
     # --- LINUX BUILD ---
     - name: Build with PyInstaller (Linux)
       if: matrix.os == 'ubuntu-latest'
       run: |
-        pyinstaller --noconfirm --onefile --windowed --clean --name "OpenScope" main.py
+        pyinstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
 
     # --- MACOS BUILD ---
     - name: Build with PyInstaller (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        pyinstaller --noconfirm --onefile --windowed --clean --name "OpenScope" main.py
+        pyinstaller --noconfirm --onedir --windowed --clean --name "OpenScope" main.py
 
-    # --- UPLOAD ARTIFACTS (Dosyaları İndirilebilir Yap) ---
+    # --- UPLOAD ARTIFACTS ---
     - name: Upload Artifact (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
         name: OpenScope-Windows
-        path: dist/OpenScope.exe
+        path: dist/OpenScope
 
     - name: Upload Artifact (Linux)
       if: matrix.os == 'ubuntu-latest'
